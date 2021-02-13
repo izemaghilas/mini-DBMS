@@ -1,0 +1,12 @@
+# Eclipse
+.classpath
+.project
+.pydevproject
+.settings/
+
+# Maven
+target/
+
+# Java
+*.class
+*.jar
