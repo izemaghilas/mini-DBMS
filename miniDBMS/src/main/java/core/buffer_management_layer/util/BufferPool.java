@@ -11,10 +11,6 @@ public enum BufferPool implements Pool{
 	INSTANCE;
 
 	private List<Frame> frames;
-	
-	public void init() {
-		frames = new ArrayList<>();
-	}
 
 	public List<Frame> getFrames() {
 		return frames;
@@ -23,7 +19,12 @@ public enum BufferPool implements Pool{
 	public void setFrames(List<Frame> frames) {
 		this.frames = frames;
 	}
-
+	
+	@Override
+	public void init() {
+		frames = new ArrayList<>();
+	}
+	
 	@Override
 	public boolean isEmpty() {
 		return frames.isEmpty();
