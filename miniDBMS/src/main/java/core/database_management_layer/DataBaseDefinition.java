@@ -1,4 +1,4 @@
-package core.files_management_layer;
+package core.database_management_layer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Constants;
+import core.files_management_layer.RelationDefinition;
 
 /**
  * define database structure of mini DBMS with one database
