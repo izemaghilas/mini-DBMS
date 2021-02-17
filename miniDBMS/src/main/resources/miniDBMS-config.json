@@ -1,0 +1,23 @@
+{
+	"mini-DBMS": {
+	
+		"database-management": {
+			"DataBaseManager": "core.database_management_layer.DataBaseManager",
+			"DataBaseDefinition": "core.database_management_layer.DataBaseDefinition"
+		},
+		
+		"buffer-management": {
+			"BufferManager": "core.buffer_management_layer.BufferManager",
+			"BufferPool": "core.buffer_management_layer.util.BufferPool",
+			"ReplacementPolicy": "core.buffer_management_layer.util.LRU"
+		},
+		
+		"disk-space-management": {
+			"DiskManager": "core.disk_space_management_layer.DiskManager"
+		},
+		
+		"file-management": {
+			"FileManager": "core.files_management_layer.FileManager"
+		}
+	}
+}
