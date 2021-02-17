@@ -12,4 +12,4 @@ target/
 *.jar
 
 # mini DBMS
-/DB/
+DB/
