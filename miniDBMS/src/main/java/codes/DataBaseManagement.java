@@ -3,7 +3,7 @@ package codes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import core.files_management_layer.DataBaseDefinition;
+import core.database_management_layer.DataBaseDefinition;
 
 public interface DataBaseManagement {
 	
@@ -20,5 +20,13 @@ public interface DataBaseManagement {
 	public BufferManagement getBufferManager();
 	
 	public DiskSpaceManagement getDiskManager();
+	
+	public void setDataBaseDefintion(Object dataBaseDefintion);
+	
+	public void setFileManagement(FileManagement fileManager);
+	
+	public void setBufferManagement(BufferManagement bufferManager);
+	
+	public void setDiskSpaceManagement(DiskSpaceManagement diskManager);
 }
 
