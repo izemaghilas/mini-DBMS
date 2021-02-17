@@ -17,9 +17,8 @@ public enum BufferManager implements BufferManagement{
 	private ReplacementPolicy replacementPolicy;
 	
 	@Override
-	public void init(Pool bufferPool, ReplacementPolicy replacementPolicy) {
-		this.bufferPool = bufferPool;
-		this.replacementPolicy = replacementPolicy;
+	public void init() {		
+		bufferPool.init();
 	}
 	
 	@Override
@@ -68,5 +67,15 @@ public enum BufferManager implements BufferManagement{
 	public void reset() {
 		bufferPool.reset();
 		replacementPolicy.reset();
+	}
+	
+	@Override
+	public void setBufferPool(Object bufferPool) {
+		this.bufferPool = (Pool) bufferPool;
+	}
+	
+	@Override
+	public void setReplacementPolicy(Object replacementPolicy) {
+		this.replacementPolicy = (ReplacementPolicy) replacementPolicy;
 	}
 }
