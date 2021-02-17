@@ -7,6 +7,8 @@ import core.buffer_management_layer.util.InUseFrameException;
 
 public interface Pool {
 	
+	public void init();
+	
 	public boolean isEmpty();
 	
 	public void addFrame(PageIdentifier pageId, byte[] pageBuffer) throws FullBufferPoolException;
