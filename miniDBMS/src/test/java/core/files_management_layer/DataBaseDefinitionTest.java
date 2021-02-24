@@ -12,7 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import core.Constants;
+import dbms.core.Constants;
+import dbms.core.database_management_layer.DataBase;
+import dbms.core.database_management_layer.RelationDefinition;
 
 class DataBaseDefinitionTest {
 
@@ -25,10 +27,10 @@ class DataBaseDefinitionTest {
 	@Test
 	private void testInit_no_catalog_file() throws FileNotFoundException, ClassNotFoundException, IOException {
 		//Given When
-		DataBaseDefinition.INSTANCE.init();
+		DataBase.INSTANCE.init();
 		
-		int n = DataBaseDefinition.INSTANCE.getNumberOfRelations();
-		List<RelationDefinition> relations = DataBaseDefinition.INSTANCE.getRelations();
+		int n = DataBase.INSTANCE.getNumberOfRelations();
+		List<RelationDefinition> relations = DataBase.INSTANCE.getRelations();
 		
 		//Then
 		Assertions.assertEquals(0, n);
@@ -61,21 +63,21 @@ class DataBaseDefinitionTest {
 		List<RelationDefinition> l = List.of(r1, r2);
 		
 		
-		DataBaseDefinition.INSTANCE.setRelations(new ArrayList<>());
-		DataBaseDefinition.INSTANCE.setNumberOfRelations(0);
-		DataBaseDefinition.INSTANCE.addRelation(r1);
-		DataBaseDefinition.INSTANCE.addRelation(r2);
+		DataBase.INSTANCE.setRelations(new ArrayList<>());
+		DataBase.INSTANCE.setNumberOfRelations(0);
+		DataBase.INSTANCE.addRelation(r1);
+		DataBase.INSTANCE.addRelation(r2);
 		
 		
 		//When
-		DataBaseDefinition.INSTANCE.finish();
-		DataBaseDefinition.INSTANCE.setRelations(new ArrayList<>());
-		DataBaseDefinition.INSTANCE.setNumberOfRelations(0);
-		DataBaseDefinition.INSTANCE.init();
+		DataBase.INSTANCE.finish();
+		DataBase.INSTANCE.setRelations(new ArrayList<>());
+		DataBase.INSTANCE.setNumberOfRelations(0);
+		DataBase.INSTANCE.init();
 		
 		//Then
-		Assertions.assertEquals(2, DataBaseDefinition.INSTANCE.getNumberOfRelations());
-		Assertions.assertIterableEquals(l, DataBaseDefinition.INSTANCE.getRelations());
+		Assertions.assertEquals(2, DataBase.INSTANCE.getNumberOfRelations());
+		Assertions.assertIterableEquals(l, DataBase.INSTANCE.getRelations());
 	}
 
 }

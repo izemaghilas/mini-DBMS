@@ -11,10 +11,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
-import codes.DataBaseManagement;
-import core.Constants;
-import core.buffer_management_layer.PageIdentifier;
-import core.files_management_layer.RelationDefinition;
+import dbms.DataBaseManagement;
+import dbms.core.Constants;
+import dbms.core.buffer_management_layer.PageIdentifier;
+import dbms.core.database_management_layer.RelationDefinition;
 
 public class Setup {
 	

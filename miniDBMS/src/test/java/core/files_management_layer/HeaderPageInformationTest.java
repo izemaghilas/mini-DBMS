@@ -5,8 +5,9 @@ import java.nio.ByteBuffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import core.Constants;
-import core.files_management_layer.util.DataPage;
+import dbms.core.Constants;
+import dbms.core.files_management_layer.HeaderPageInformation;
+import dbms.core.files_management_layer.util.DataPage;
 
 class HeaderPageInformationTest {
 

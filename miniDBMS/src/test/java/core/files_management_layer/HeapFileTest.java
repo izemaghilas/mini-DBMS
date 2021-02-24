@@ -9,14 +9,18 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import codes.DataBaseManager;
-import codes.DiskSpaceManagement;
-import core.Constants;
-import core.buffer_management_layer.BufferManager;
-import core.buffer_management_layer.PageIdentifier;
-import core.buffer_management_layer.util.BufferPool;
-import core.buffer_management_layer.util.LRU;
-import setup.ForHeapFileTest;
+import dbms.core.Constants;
+import dbms.core.buffer_management_layer.BufferManager;
+import dbms.core.buffer_management_layer.PageIdentifier;
+import dbms.core.buffer_management_layer.util.BufferPool;
+import dbms.core.database_management_layer.DataBaseManager;
+import dbms.core.database_management_layer.RelationDefinition;
+import dbms.core.files_management_layer.HeaderPageInformation;
+import dbms.core.files_management_layer.HeapFile;
+import dbms.core.files_management_layer.Record;
+import dbms.core.files_management_layer.RecordIdentifier;
+import setup.Setup;
+
 
 class HeapFileTest {
 	private HeapFile heapfile;
@@ -36,17 +40,18 @@ class HeapFileTest {
 		this.heapfile.setRelation(relation);
 		
 		BufferPool.INSTANCE.init();
-		
-		BufferManager.INSTANCE.init(BufferPool.INSTANCE, LRU.INSTANCE);
+		//TODO : set buffer manager pool and replacement policy
+		BufferManager.INSTANCE.init();
 	}
 	
 
 	@Test
 	void testCreateNewOnDisk() throws IOException {
-		//Given
+		//Setup
 		init();
-		HeaderPageInformation headerPageInfo = new HeaderPageInformation();
 		
+		//Given
+		HeaderPageInformation headerPageInfo = new HeaderPageInformation();
 		PageIdentifier PageId = new PageIdentifier();
 		PageId.setFileIndex(0);
 		PageId.setPageIndex(0);
@@ -56,24 +61,26 @@ class HeapFileTest {
 		byte[] PageBuffer = DataBaseManager.INSTANCE.getBufferManager().getPage(PageId, DataBaseManager.INSTANCE.getDiskManager());
 		headerPageInfo.readFromBuffer(PageBuffer);
 		
+		boolean DB_created = Files.exists(Paths.get(Constants.DB_DIRECTORY+"/DATA_"+PageId.getFileIndex()+".rf"));
+		
+		Setup.deleteDB();
+		
 		//Then
-		Assertions.assertTrue(Files.exists(Paths.get(Constants.DB_DIRECTORY+"/DATA_"+PageId.getFileIndex()+".rf")));
+		Assertions.assertTrue(DB_created);
 		Assertions.assertEquals(0, headerPageInfo.getDataPageCount());
 		Assertions.assertEquals(0, headerPageInfo.getDataPages().size());
-		
-		ForHeapFileTest.deleteDB();
 	}
 
 	@Test
 	void testInsertRecord() throws FileNotFoundException, IOException {
-		//Given
+		//Setup
 		init();
-		DiskSpaceManagement diskManager = DataBaseManager.INSTANCE.getDiskManager();
-		diskManager.createFile(0);
-		diskManager.addPage(0, new PageIdentifier());
+		Setup.initDB(DataBaseManager.INSTANCE, relation);
 		
+		//Given
 		Record record = new Record();
-		record.setValues(List.of("24", "1.85", "agent_Maitrise"));
+		record.setValues(Setup.getFirstLineFromDataSet());
+		
 		RecordIdentifier recordId = new RecordIdentifier();
 		PageIdentifier pageId = new PageIdentifier();
 		pageId.setFileIndex(0);
@@ -84,33 +91,35 @@ class HeapFileTest {
 		//When
 		RecordIdentifier rid =  heapfile.insertRecord(record, DataBaseManager.INSTANCE);
 		
+		Setup.deleteDB();
+		
 		//Then
 		Assertions.assertEquals(recordId.getSlotIndex(), rid.getSlotIndex());
 		Assertions.assertEquals(recordId.getPageId(), rid.getPageId());
 		
-		ForHeapFileTest.deleteDB();
 	}
 
 	@Test
 	void testGetAllRecords() throws IOException {
-		//Given
+		//Setup
 		init();
+		Setup.initDB(DataBaseManager.INSTANCE, relation);
 		
-		DiskSpaceManagement diskManager = DataBaseManager.INSTANCE.getDiskManager();
-		diskManager.createFile(0);
-		
-		//When
+		//When		
 		List<Record> records = heapfile.getAllRecords(DataBaseManager.INSTANCE);
+		Setup.resetBufferManager(DataBaseManager.INSTANCE);
 		
-		ForHeapFileTest.initDB();
-		DataBaseManager.INSTANCE.getBufferManager().reset();
+		Setup.fillDB(DataBaseManager.INSTANCE, relation);
+		
 		List<Record> records1 = heapfile.getAllRecords(DataBaseManager.INSTANCE);
 		
+		Setup.deleteDB();
+		
 		//Then
-		Assertions.assertEquals(0, records.size());
+		Assertions.assertEquals(0, records.size());	
 		Assertions.assertEquals(70, records1.size());//70 size of dummyData "data_set_get_all_records.csv"
 		
-		ForHeapFileTest.deleteDB();
+		
 	}
 
 	@Test

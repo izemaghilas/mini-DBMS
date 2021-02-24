@@ -8,16 +8,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import codes.DataBaseManager;
-import core.Constants;
-import core.buffer_management_layer.PageIdentifier;
+import dbms.core.Constants;
+import dbms.core.buffer_management_layer.PageIdentifier;
+import dbms.core.database_management_layer.DataBaseManager;
 
 class DiskManagerTest {
 	
-	//delete DB directory
+	@AfterEach
 	private void finish() throws IOException{
 		for(File file: Path.of(Constants.DB_DIRECTORY).toFile().listFiles()) {
 			file.delete();

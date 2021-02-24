@@ -6,8 +6,9 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import core.buffer_management_layer.PageIdentifier;
-import core.disk_space_management_layer.DiskManager;
+import dbms.core.Constants;
+import dbms.core.buffer_management_layer.PageIdentifier;
+import dbms.core.disk_space_management_layer.DiskManager;
 
 public class DiskManagerTest {
 	
