@@ -7,7 +7,6 @@
 >> - DBMS manages only one database
 >> - No syntax errors handling for query parsing
 >> - Support only three data types
->> - Less exceptions handling
 
 # Query Language
 > **CREATE** *table_name* *number_of_columns* *data_type_of_each_column*
